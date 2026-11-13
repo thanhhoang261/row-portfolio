@@ -28,8 +28,8 @@ keystatic.config.ts         schema bài viết
 
 1. **Tạo GitHub App cho Keystatic** (để editor trên web commit vào repo):
    chạy local `NEXT_PUBLIC_KEYSTATIC_STORAGE=github NEXT_PUBLIC_KEYSTATIC_REPO=<user>/<repo> npm run dev`,
-   vào `/keystatic`, làm theo hướng dẫn tạo GitHub App; nó ghi ra file `.env` chứa
-   `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`.
+   vào `/keystatic`, làm theo hướng dẫn tạo GitHub App; nó ghi ra file `.env` (ở thư mục gốc) chứa
+   `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`, `KEYSTATIC_SECRET`, `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`.
    Sau đó thêm callback URL production của App: `https://<domain>/api/keystatic/github/oauth/callback`.
 2. **Trên server:** `git clone` repo, `cp .env.example .env`, điền `DOMAIN`, repo và 3 khóa ở trên.
 3. `docker compose up -d --build` → Caddy tự cấp HTTPS.
