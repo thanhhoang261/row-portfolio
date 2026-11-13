@@ -16,7 +16,7 @@ export const projects: Project[] = [
     slug: "row-portfolio",
     title: "row-portfolio",
     stack: ["Next.js", "MDX", "Keystatic", "Docker"],
-    repo: "https://github.com/your-github-user/row-portfolio",
+    repo: "https://github.com/thanhhoang261/row-portfolio",
     featured: true,
     description: {
       vi: "Chính trang web này: portfolio song ngữ kèm blog MDX, quản lý bài viết qua Git, tự host bằng Docker.",
