@@ -39,7 +39,7 @@ keystatic.config.ts         schema bài viết
    * * * * * PATH=/usr/local/bin:/usr/bin:/bin /home/<user>/row-portfolio/deploy/deploy.sh
    ```
    Log: `~/.local/state/row-portfolio/deploy.log`. Build lỗi thì container cũ vẫn chạy; commit lỗi không bị build lại
-   liên tục (xóa `~/.local/state/row-portfolio/failed` để thử lại).
+   liên tục (xóa `~/.local/state/row-portfolio/failed` để thử lại). Xem trạng thái: `tail -f ~/.local/state/row-portfolio/deploy.log`.
 
 Luồng viết bài: `https://<domain>/keystatic` → đăng nhập GitHub → Save → commit lên `main` → server tự phát hiện và build lại → bài lên sau ~1–3 phút.
 
