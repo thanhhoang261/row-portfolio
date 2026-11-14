@@ -177,3 +177,107 @@ html.kui-theme ::selection {
   .adm-help-fab.is-new::after, .adm-help-panel { animation: none; }
   .adm-help-fab { transition: none; }
 }
+
+/* ======================================================================================
+   Màu theo nhóm nội dung. Chỉ dựa vào địa chỉ liên kết (/keystatic/collection/<key>) và
+   cấu trúc DOM; nếu Keystatic đổi cấu trúc thì phần này tự mất tác dụng, không gây lỗi.
+   tím = Bài viết · xanh ngọc = Dự án · hồng = Sở thích · xanh lá = Nội dung trang
+   ====================================================================================== */
+.kui-theme.kui-theme {
+  --sec-posts: #6d4fd6;
+  --sec-projects: #0b8aa8;
+  --sec-hobby: #d6336c;
+  --sec-pages: #3f8f12;
+}
+.kui-theme.kui-theme.kui-scheme--dark {
+  --sec-posts: #a78bfa;
+  --sec-projects: #22d3ee;
+  --sec-hobby: #f472b6;
+  --sec-pages: #a3e635;
+}
+@media (prefers-color-scheme: dark) {
+  .kui-theme.kui-theme.kui-scheme--auto {
+    --sec-posts: #a78bfa;
+    --sec-projects: #22d3ee;
+    --sec-hobby: #f472b6;
+    --sec-pages: #a3e635;
+  }
+}
+
+/* Gán màu cho từng liên kết trong thanh bên */
+nav a:is([href*="/collection/postsVi"], [href*="/collection/postsEn"]) { --c: var(--sec-posts); }
+nav a[href*="/collection/projects"] { --c: var(--sec-projects); }
+nav a:is([href*="/collection/games"], [href*="/collection/sports"], [href*="/collection/favorites"]) { --c: var(--sec-hobby); }
+nav a[href*="/singleton/"] { --c: var(--sec-pages); }
+
+/* Chấm màu trước tên mục */
+nav a:is([href*="/collection/"], [href*="/singleton/"]) > div {
+  display: flex;
+  align-items: center;
+}
+nav a:is([href*="/collection/"], [href*="/singleton/"]) > div::before {
+  content: "";
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 22%, transparent);
+}
+
+/* Mục đang chọn: thanh đánh dấu, chữ và nền theo màu nhóm */
+nav a[aria-current="page"]:is([href*="/collection/"], [href*="/singleton/"]) {
+  --kui-color-alias-border-selected: var(--c);
+  --kui-color-alias-foreground-selected: var(--c);
+  --kui-color-alias-background-selected: color-mix(in srgb, transparent, var(--c) 13%);
+  --kui-color-alias-background-selected-hovered: color-mix(in srgb, transparent, var(--c) 20%);
+  --kui-color-background-accent-emphasis: var(--c);
+  --kui-color-background-accent: color-mix(in srgb, transparent, var(--c) 13%);
+  --kui-color-foreground-accent: var(--c);
+  font-weight: 600;
+}
+nav a[aria-current="page"]:is([href*="/collection/"], [href*="/singleton/"]) > div {
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  border-radius: 8px;
+}
+
+/* Chú giải màu trong bảng hướng dẫn */
+.adm-help-panel .adm-help-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.adm-help-legend li { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--adm-border, #e2e1ef); font-weight: 600; }
+.adm-help-legend i { width: 9px; height: 9px; border-radius: 50%; background: var(--dot); box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot) 22%, transparent); }
+
+/* Tiêu đề nhóm trong thanh bên */
+nav li:has(> ul a:is([href*="/collection/postsVi"], [href*="/collection/postsEn"])) > h3 { color: var(--sec-posts); }
+nav li:has(> ul a[href*="/collection/projects"]) > h3 { color: var(--sec-projects); }
+nav li:has(> ul a:is([href*="/collection/games"], [href*="/collection/sports"], [href*="/collection/favorites"])) > h3 { color: var(--sec-hobby); }
+nav li:has(> ul a[href*="/singleton/"]) > h3 { color: var(--sec-pages); }
+nav li > h3 { font-weight: 700; letter-spacing: 0.08em; }
+
+/* Màu của trang đang mở (dùng cho đường kẻ dưới thanh tiêu đề) */
+.kui-theme.kui-theme:has(nav a[aria-current="page"]:is([href*="/collection/postsVi"], [href*="/collection/postsEn"])) { --sec: var(--sec-posts); }
+.kui-theme.kui-theme:has(nav a[aria-current="page"][href*="/collection/projects"]) { --sec: var(--sec-projects); }
+.kui-theme.kui-theme:has(nav a[aria-current="page"]:is([href*="/collection/games"], [href*="/collection/sports"], [href*="/collection/favorites"])) { --sec: var(--sec-hobby); }
+.kui-theme.kui-theme:has(nav a[aria-current="page"][href*="/singleton/"]) { --sec: var(--sec-pages); }
+main header {
+  box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--sec, transparent) 85%, transparent);
+}
+
+/* Thẻ trên trang tổng quan: viền trái và nền nhạt theo nhóm */
+main div:has(> div > h3 > span > a:is([href$="/collection/postsVi"], [href$="/collection/postsEn"])) { --c: var(--sec-posts); }
+main div:has(> div > h3 > span > a[href$="/collection/projects"]) { --c: var(--sec-projects); }
+main div:has(> div > h3 > span > a:is([href$="/collection/games"], [href$="/collection/sports"], [href$="/collection/favorites"])) { --c: var(--sec-hobby); }
+main div:has(> div > h3 > span > a[href*="/singleton/"]) { --c: var(--sec-pages); }
+main div:has(> div > h3 > span > a:is([href*="/collection/"], [href*="/singleton/"])) {
+  box-shadow: inset 5px 0 0 var(--c);
+  background: color-mix(in srgb, var(--c) 7%, var(--kui-color-scale-slate1));
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+main div:has(> div > h3 > span > a:is([href*="/collection/"], [href*="/singleton/"])):hover {
+  transform: translateY(-2px);
+  box-shadow: inset 5px 0 0 var(--c), 0 10px 26px -14px var(--c);
+}
+@media (prefers-reduced-motion: reduce) {
+  main div:has(> div > h3 > span > a) { transition: none; }
+  main div:has(> div > h3 > span > a):hover { transform: none; }
+}

@@ -90,6 +90,17 @@ export function AdminHelp() {
             <h2>Hướng dẫn viết bài</h2>
             <p>Từ lúc bấm lưu đến khi bài lên site.</p>
 
+            <h3>Màu theo nhóm</h3>
+            <ul className="adm-help-legend">
+              <li style={{ "--dot": "#7c5cf0" } as React.CSSProperties}><i />Bài viết</li>
+              <li style={{ "--dot": "#0eaed0" } as React.CSSProperties}><i />Dự án</li>
+              <li style={{ "--dot": "#e0457f" } as React.CSSProperties}><i />Sở thích</li>
+              <li style={{ "--dot": "#5aa81a" } as React.CSSProperties}><i />Nội dung trang</li>
+            </ul>
+            <p style={{ marginTop: 8 }}>
+              Chấm màu ở thanh bên và đường kẻ dưới thanh tiêu đề cho biết bạn đang ở nhóm nào.
+            </p>
+
             <h3>Đăng một bài trong 4 bước</h3>
             <ol>
               <li>
