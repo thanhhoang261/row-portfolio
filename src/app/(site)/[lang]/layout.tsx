@@ -68,7 +68,7 @@ export default async function RootLayout({
       <body className="flex min-h-screen flex-col">
         <Header lang={lang} t={t} handle={profile.handle} />
         <main className="mx-auto w-full max-w-5xl flex-1 px-5">{children}</main>
-        <Footer t={t} profile={profile} />
+        <Footer profile={profile} />
       </body>
     </html>
   );

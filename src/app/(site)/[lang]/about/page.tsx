@@ -5,17 +5,6 @@ import { getDictionary } from "@/lib/dictionaries";
 import { getAbout, getProfile } from "@/lib/profile";
 import { Mdx } from "@/components/mdx";
 
-const skills = [
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "PostgreSQL",
-  "Docker",
-  "Tailwind CSS",
-  "Git",
-];
-
 export async function generateMetadata({
   params,
 }: PageProps<"/[lang]/about">): Promise<Metadata> {
@@ -49,28 +38,18 @@ export default async function About({ params }: PageProps<"/[lang]/about">) {
         </div>
       )}
 
-      <h2 className="mt-10 font-mono text-lg font-semibold">
-        <span className="text-pink">#</span> {t.about.skills}
-      </h2>
-      <ul className="mt-4 flex flex-wrap gap-2">
-        {skills.map((s) => (
-          <li
-            key={s}
-            className="rounded-md border border-line px-2.5 py-1 font-mono text-xs text-cyan"
-          >
-            {s}
-          </li>
-        ))}
-      </ul>
-
-      <h2 className="mt-10 font-mono text-lg font-semibold">
-        <span className="text-pink">#</span> {t.about.contact}
-      </h2>
-      <p className="mt-3 font-mono text-sm">
-        <a href={`mailto:${profile.email}`} className="text-cyan hover:underline">
-          {profile.email}
-        </a>
-      </p>
+      {profile.email && (
+        <>
+          <h2 className="mt-10 font-mono text-lg font-semibold">
+            <span className="text-pink">#</span> {t.about.contact}
+          </h2>
+          <p className="mt-3 font-mono text-sm">
+            <a href={`mailto:${profile.email}`} className="text-cyan hover:underline">
+              {profile.email}
+            </a>
+          </p>
+        </>
+      )}
     </section>
   );
 }

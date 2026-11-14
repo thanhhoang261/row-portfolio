@@ -49,11 +49,11 @@ export function Terminal({
         <span className="h-3 w-3 rounded-full bg-pink" />
         <span className="h-3 w-3 rounded-full bg-lime" />
         <span className="h-3 w-3 rounded-full bg-cyan" />
-        <span className="ml-3 font-mono text-xs text-muted">{handle}@dev: ~</span>
+        <span className="ml-3 font-mono text-xs text-muted">{handle}: ~</span>
       </div>
       <div className="p-5 font-mono text-[13px] leading-relaxed sm:text-sm">
         <Line cmd={t.whoami} out={`${name} — ${role}`} delay={0.3} />
-        <Line cmd={t.stack} out={t.stackOut} delay={2.2} />
+        <Line cmd={t.blog} out={t.blogOut} delay={2.2} />
         <Line cmd={t.status} out={t.statusOut} delay={4.1} />
         <p>
           <span className="text-lime">➜</span> <span className="text-cyan">~</span>{" "}

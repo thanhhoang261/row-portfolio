@@ -10,7 +10,7 @@ npm run dev        # http://localhost:3000
 ```
 
 - Viết bài: mở `http://localhost:3000/keystatic` (chế độ local, ghi thẳng file vào `content/posts/{vi,en}/*.mdx`).
-- Chỉnh thông tin cá nhân: `src/data/site.ts`, dự án: `src/data/projects.ts`, chữ trên site: `src/dictionaries/{vi,en}.ts`.
+- Thông tin cá nhân và trang Giới thiệu sửa trong Keystatic (mục *Nội dung trang*); chữ mặc định ở `src/dictionaries/{vi,en}.ts` và `src/data/site.ts`.
 
 ## Viết bài trong Keystatic (`/keystatic`)
 

@@ -3,7 +3,7 @@ import { locales, siteUrl } from "@/lib/i18n";
 import { getPosts } from "@/lib/posts";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const pages = ["", "/projects", "/blog", "/about"];
+  const pages = ["", "/blog", "/about"];
   const entries: MetadataRoute.Sitemap = locales.flatMap((lang) =>
     pages.map((p) => ({ url: `${siteUrl}/${lang}${p}` })),
   );
