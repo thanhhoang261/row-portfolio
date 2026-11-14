@@ -4,7 +4,15 @@ import type { Dictionary } from "@/dictionaries/vi";
 import { LangSwitch } from "./lang-switch";
 import { ThemeToggle } from "./theme-toggle";
 
-export function Header({ lang, t }: { lang: Locale; t: Dictionary }) {
+export function Header({
+  lang,
+  t,
+  handle,
+}: {
+  lang: Locale;
+  t: Dictionary;
+  handle: string;
+}) {
   const links = [
     { href: `/${lang}/blog`, label: t.nav.blog },
     { href: `/${lang}/about`, label: t.nav.about },
@@ -16,7 +24,7 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary }) {
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-5">
         <Link href={`/${lang}`} className="font-mono text-base font-semibold">
           <span className="text-cyan">~/</span>
-          <span className="gradient-text">row</span>
+          <span className="gradient-text">{handle}</span>
           <span className="caret ml-0.5" aria-hidden />
         </Link>
         <nav className="flex items-center gap-1 font-mono text-sm sm:gap-3">

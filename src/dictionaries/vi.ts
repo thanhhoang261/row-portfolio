@@ -1,7 +1,7 @@
 const vi = {
   meta: {
-    title: "Row — Lập trình viên & Blog",
-    description: "Portfolio và blog cá nhân của Row: dự án, ghi chép kỹ thuật và hành trình làm nghề.",
+    title: "{name} — Lập trình viên & Blog",
+    description: "Portfolio và blog cá nhân của {name}: dự án, ghi chép kỹ thuật và hành trình làm nghề.",
   },
   nav: { home: "home", projects: "projects", blog: "blog", about: "about" },
   hero: {
@@ -13,7 +13,6 @@ const vi = {
     ctaBlog: "Đọc blog",
     terminal: {
       whoami: "whoami",
-      whoamiOut: "row — full-stack developer",
       stack: "cat stack.txt",
       stackOut: "TypeScript · React · Next.js · Node.js · Docker",
       status: "git status",
@@ -38,6 +37,7 @@ const vi = {
     empty: "Chưa có bài viết nào.",
     back: "Tất cả bài viết",
     minRead: "phút đọc",
+    updated: "cập nhật",
     rss: "Đăng ký RSS",
   },
   about: {

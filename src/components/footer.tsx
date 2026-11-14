@@ -1,12 +1,12 @@
-import { site } from "@/data/site";
 import type { Dictionary } from "@/dictionaries/vi";
+import type { Profile } from "@/lib/profile";
 
-export function Footer({ t }: { t: Dictionary }) {
+export function Footer({ t, profile }: { t: Dictionary; profile: Profile }) {
   const links = [
-    { label: "github", href: site.github },
-    { label: "linkedin", href: site.linkedin },
-    { label: "x", href: site.x },
-    { label: "email", href: `mailto:${site.email}` },
+    { label: "github", href: profile.github },
+    { label: "linkedin", href: profile.linkedin },
+    { label: "x", href: profile.x },
+    { label: "email", href: `mailto:${profile.email}` },
   ];
   return (
     <footer className="mt-24 border-t border-line/70">

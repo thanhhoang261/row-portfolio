@@ -12,6 +12,15 @@ npm run dev        # http://localhost:3000
 - Viết bài: mở `http://localhost:3000/keystatic` (chế độ local, ghi thẳng file vào `content/posts/{vi,en}/*.mdx`).
 - Chỉnh thông tin cá nhân: `src/data/site.ts`, dự án: `src/data/projects.ts`, chữ trên site: `src/dictionaries/{vi,en}.ts`.
 
+## Viết bài trong Keystatic (`/keystatic`)
+
+- **Bài viết:** mỗi ngôn ngữ một bộ riêng. Tiêu đề tiếng Việt tự thành slug không dấu. Có ảnh bìa, ngày cập nhật, tag, bản nháp (Draft).
+- **Trong nội dung:** gõ `/` để chèn tiêu đề, danh sách, bảng, code block (có tô màu), ảnh (tự đổi tên file, lưu ở `public/images/posts`),
+  và các component riêng: **Callout** (info/mẹo/cảnh báo/nguy hiểm), **Details** (thu gọn), **Ảnh có chú thích**, **Video YouTube**.
+- **Nội dung trang:** mục *Thông tin cá nhân* (tên, email, link, vai trò, giới thiệu ngắn) và *Trang Giới thiệu* (VI/EN) sửa được ngay
+  trên web; chưa nhập thì site dùng chữ mặc định trong `src/dictionaries/` và `src/data/site.ts`.
+- Bài nào dữ liệu lỗi (ví dụ thiếu tiêu đề) sẽ bị **bỏ qua khi build** và ghi cảnh báo, không làm hỏng cả site.
+
 ## Cấu trúc
 
 ```

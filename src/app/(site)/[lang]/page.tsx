@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { hasLocale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionaries";
 import { getPosts } from "@/lib/posts";
+import { getProfile } from "@/lib/profile";
 import { Terminal } from "@/components/terminal";
 import { PostList } from "@/components/post-list";
 
@@ -11,6 +12,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);
   const posts = (await getPosts(lang)).slice(0, 5);
+  const profile = await getProfile(lang, t);
 
   return (
     <>
@@ -20,11 +22,11 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <span className="text-lime">$</span> {t.hero.greeting}
           </p>
           <h1 className="mt-3 text-5xl font-bold tracking-tight sm:text-6xl">
-            <span className="gradient-text">Row</span>
+            <span className="gradient-text">{profile.name}</span>
           </h1>
-          <p className="mt-3 font-mono text-lg text-violet">{t.hero.role}</p>
+          <p className="mt-3 font-mono text-lg text-violet">{profile.role}</p>
           <p className="mt-5 max-w-md leading-relaxed text-muted">
-            {t.hero.tagline}
+            {profile.tagline}
           </p>
           <div className="mt-8 flex flex-wrap gap-3 font-mono text-sm">
             <Link
@@ -41,7 +43,12 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             </Link>
           </div>
         </div>
-        <Terminal t={t.hero.terminal} />
+        <Terminal
+          t={t.hero.terminal}
+          handle={profile.handle}
+          name={profile.name}
+          role={profile.role}
+        />
       </section>
 
       <section className="py-10">

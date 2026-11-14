@@ -1,6 +1,7 @@
 import { hasLocale, locales, siteUrl } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionaries";
 import { getPosts } from "@/lib/posts";
+import { fillName, getProfile } from "@/lib/profile";
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -21,6 +22,7 @@ export async function GET(
   if (!hasLocale(lang)) return new Response("Not found", { status: 404 });
   const t = await getDictionary(lang);
   const posts = await getPosts(lang);
+  const { name } = await getProfile(lang, t);
 
   const items = posts
     .map(
@@ -36,9 +38,9 @@ export async function GET(
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>
-<title>${esc(t.meta.title)}</title>
+<title>${esc(fillName(t.meta.title, name))}</title>
 <link>${siteUrl}/${lang}</link>
-<description>${esc(t.meta.description)}</description>
+<description>${esc(fillName(t.meta.description, name))}</description>
 <language>${lang}</language>
 ${items}
 </channel></rss>`;

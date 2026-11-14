@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import "../../globals.css";
 import { hasLocale, locales, siteUrl } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionaries";
+import { fillName, getProfile } from "@/lib/profile";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
@@ -31,15 +32,18 @@ export async function generateMetadata({
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
+  const { name } = await getProfile(lang, t);
+  const title = fillName(t.meta.title, name);
+  const description = fillName(t.meta.description, name);
   return {
     metadataBase: new URL(siteUrl),
-    title: { default: t.meta.title, template: "%s · Row" },
-    description: t.meta.description,
+    title: { default: title, template: `%s · ${name}` },
+    description,
     alternates: {
       languages: Object.fromEntries(locales.map((l) => [l, `/${l}`])),
       types: { "application/rss+xml": `/${lang}/feed.xml` },
     },
-    openGraph: { title: t.meta.title, description: t.meta.description, type: "website" },
+    openGraph: { title, description, type: "website" },
   };
 }
 
@@ -50,6 +54,7 @@ export default async function RootLayout({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);
+  const profile = await getProfile(lang, t);
 
   return (
     <html
@@ -61,9 +66,9 @@ export default async function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>
       <body className="flex min-h-screen flex-col">
-        <Header lang={lang} t={t} />
+        <Header lang={lang} t={t} handle={profile.handle} />
         <main className="mx-auto w-full max-w-5xl flex-1 px-5">{children}</main>
-        <Footer t={t} />
+        <Footer t={t} profile={profile} />
       </body>
     </html>
   );

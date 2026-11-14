@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { formatDate, type PostMeta } from "@/lib/posts";
 import type { Locale } from "@/lib/i18n";
@@ -21,8 +22,17 @@ export function PostList({
         <li key={p.slug}>
           <Link
             href={`/${lang}/blog/${p.slug}`}
-            className="card block rounded-xl p-5"
+            className="card block overflow-hidden rounded-xl"
           >
+            {p.cover && (
+              <img
+                src={p.cover}
+                alt=""
+                loading="lazy"
+                className="aspect-[1200/630] w-full border-b border-line object-cover"
+              />
+            )}
+            <div className="p-5">
             <p className="font-mono text-xs text-muted">
               {formatDate(p.date, lang)} · {p.readingMinutes} {t.blog.minRead}
             </p>
@@ -42,6 +52,7 @@ export function PostList({
                 ))}
               </ul>
             )}
+            </div>
           </Link>
         </li>
       ))}

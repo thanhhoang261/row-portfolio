@@ -2,8 +2,8 @@ import type { Dictionary } from "./vi";
 
 const en: Dictionary = {
   meta: {
-    title: "Row — Developer & Blog",
-    description: "Row's personal portfolio and blog: projects, technical notes and lessons from building software.",
+    title: "{name} — Developer & Blog",
+    description: "{name}'s personal portfolio and blog: projects, technical notes and lessons from building software.",
   },
   nav: { home: "home", projects: "projects", blog: "blog", about: "about" },
   hero: {
@@ -15,7 +15,6 @@ const en: Dictionary = {
     ctaBlog: "Read the blog",
     terminal: {
       whoami: "whoami",
-      whoamiOut: "row — full-stack developer",
       stack: "cat stack.txt",
       stackOut: "TypeScript · React · Next.js · Node.js · Docker",
       status: "git status",
@@ -40,6 +39,7 @@ const en: Dictionary = {
     empty: "No posts yet.",
     back: "All posts",
     minRead: "min read",
+    updated: "updated",
     rss: "Subscribe via RSS",
   },
   about: {

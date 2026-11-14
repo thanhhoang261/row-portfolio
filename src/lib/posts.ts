@@ -1,8 +1,5 @@
-import { createReader } from "@keystatic/core/reader";
-import config from "../../keystatic.config";
+import { reader } from "./reader";
 import type { Locale } from "./i18n";
-
-const reader = createReader(process.cwd(), config);
 
 const collectionFor = (lang: Locale) =>
   lang === "vi" ? reader.collections.postsVi : reader.collections.postsEn;
@@ -12,6 +9,8 @@ export type PostMeta = {
   title: string;
   description: string;
   date: string;
+  updated: string | null;
+  cover: string | null;
   tags: string[];
   readingMinutes: number;
 };
@@ -19,8 +18,29 @@ export type PostMeta = {
 const readingMinutes = (text: string) =>
   Math.max(1, Math.round(text.split(/\s+/).filter(Boolean).length / 200));
 
+// Đọc từng bài trong try/catch: một bài lỗi (thiếu tiêu đề, sai định dạng...) chỉ bị bỏ qua
+// và ghi cảnh báo, không làm hỏng cả bản build của site.
+async function readEntry(lang: Locale, slug: string) {
+  try {
+    return await collectionFor(lang).read(slug);
+  } catch (error) {
+    console.warn(
+      `[posts] Bỏ qua bài "${slug}" (${lang}): ${error instanceof Error ? error.message : error}`,
+    );
+    return null;
+  }
+}
+
 export async function getPosts(lang: Locale): Promise<PostMeta[]> {
-  const entries = await collectionFor(lang).all();
+  const slugs = await collectionFor(lang).list();
+  const entries = (
+    await Promise.all(
+      slugs.map(async (slug) => ({ slug, entry: await readEntry(lang, slug) })),
+    )
+  ).filter(
+    (item): item is { slug: string; entry: NonNullable<typeof item.entry> } =>
+      item.entry !== null,
+  );
   const posts = await Promise.all(
     entries
       .filter(({ entry }) => !entry.draft)
@@ -29,6 +49,8 @@ export async function getPosts(lang: Locale): Promise<PostMeta[]> {
         title: entry.title,
         description: entry.description,
         date: entry.date ?? "",
+        updated: entry.updated ?? null,
+        cover: entry.cover ?? null,
         tags: [...entry.tags],
         readingMinutes: readingMinutes(await entry.content()),
       })),
@@ -37,7 +59,7 @@ export async function getPosts(lang: Locale): Promise<PostMeta[]> {
 }
 
 export async function getPost(lang: Locale, slug: string) {
-  const entry = await collectionFor(lang).read(slug);
+  const entry = await readEntry(lang, slug);
   if (!entry || entry.draft) return null;
   const content = await entry.content();
   return {
@@ -46,6 +68,8 @@ export async function getPost(lang: Locale, slug: string) {
       title: entry.title,
       description: entry.description,
       date: entry.date ?? "",
+      updated: entry.updated ?? null,
+      cover: entry.cover ?? null,
       tags: [...entry.tags],
       readingMinutes: readingMinutes(content),
     } satisfies PostMeta,
