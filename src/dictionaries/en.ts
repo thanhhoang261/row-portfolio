@@ -5,7 +5,7 @@ const en: Dictionary = {
     title: "{name} — Software Engineer",
     description: "{name}'s personal website and blog.",
   },
-  nav: { home: "home", blog: "blog", about: "about" },
+  nav: { home: "home", blog: "blog", projects: "projects", about: "about" },
   hero: {
     greeting: "Hi, I'm",
     role: "Software engineer",
@@ -23,9 +23,16 @@ const en: Dictionary = {
   },
   sections: {
     about: "A bit about me",
+    projects: "Things I've made",
     latest: "Latest posts",
     all: "View all",
     more: "Read more",
+  },
+  projects: {
+    title: "Projects",
+    description: "A few things I've made.",
+    empty: "No projects yet — coming soon.",
+    visit: "View",
   },
   blog: {
     title: "Blog",

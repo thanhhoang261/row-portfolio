@@ -3,7 +3,7 @@ const vi = {
     title: "{name} — Kỹ sư phần mềm",
     description: "Trang giới thiệu và blog cá nhân của {name}.",
   },
-  nav: { home: "home", blog: "blog", about: "about" },
+  nav: { home: "home", blog: "blog", projects: "projects", about: "about" },
   hero: {
     greeting: "Xin chào, mình là",
     role: "Kỹ sư phần mềm",
@@ -21,9 +21,16 @@ const vi = {
   },
   sections: {
     about: "Vài dòng về mình",
+    projects: "Những thứ mình đã làm",
     latest: "Bài viết mới",
     all: "Xem tất cả",
     more: "Đọc tiếp",
+  },
+  projects: {
+    title: "Dự án",
+    description: "Một vài thứ mình đã làm.",
+    empty: "Chưa có dự án nào, sẽ cập nhật sớm.",
+    visit: "Xem",
   },
   blog: {
     title: "Blog",

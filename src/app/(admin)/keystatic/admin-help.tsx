@@ -140,6 +140,10 @@ export function AdminHelp() {
               <li>Ảnh bìa nên ngang, tỉ lệ <b>1200×630</b>. Ảnh lưu trong Git nên nén dưới ~500KB.</li>
               <li>Tag viết thường, không dấu cách (ví dụ <code>nextjs</code>, <code>docker</code>).</li>
               <li>
+                Mục <b>Dự án</b>: thêm những thứ bạn đã làm (tên, mô tả, ảnh, link). Đánh dấu{" "}
+                <b>Hiện ở trang chủ</b> để đưa lên trang chủ.
+              </li>
+              <li>
                 Mục <b>Nội dung trang</b> sửa tên, email, link và trang Giới thiệu của site.
               </li>
             </ul>

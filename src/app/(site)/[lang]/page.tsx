@@ -4,6 +4,8 @@ import { hasLocale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionaries";
 import { getPosts } from "@/lib/posts";
 import { getProfile } from "@/lib/profile";
+import { getProjects } from "@/lib/projects";
+import { ProjectCard } from "@/components/project-card";
 import { Terminal } from "@/components/terminal";
 import { PostList } from "@/components/post-list";
 
@@ -13,6 +15,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const t = await getDictionary(lang);
   const posts = (await getPosts(lang)).slice(0, 5);
   const profile = await getProfile(lang, t);
+  const featured = (await getProjects(lang)).filter((p) => p.featured).slice(0, 3);
 
   return (
     <>
@@ -65,6 +68,27 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         </div>
         <PostList posts={posts} lang={lang} t={t} />
       </section>
+
+      {featured.length > 0 && (
+        <section className="py-10">
+          <div className="mb-5 flex items-baseline justify-between">
+            <h2 className="font-mono text-xl font-semibold">
+              <span className="text-pink">#</span> {t.sections.projects}
+            </h2>
+            <Link
+              href={`/${lang}/projects`}
+              className="font-mono text-xs text-muted hover:text-cyan"
+            >
+              {t.sections.all} →
+            </Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((p) => (
+              <ProjectCard key={p.slug} project={p} t={t} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="py-10">
         <h2 className="font-mono text-xl font-semibold">

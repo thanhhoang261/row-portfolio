@@ -226,6 +226,7 @@ export default config({
     },
     navigation: {
       "Bài viết": ["postsVi", "postsEn"],
+      "Dự án": ["projects"],
       "Nội dung trang": ["profile", "aboutVi", "aboutEn"],
     },
   },
@@ -250,6 +251,61 @@ export default config({
       columns: ["date", "draft"],
       previewUrl: "/en/blog/{slug}",
       schema: postFields,
+    }),
+
+    projects: collection({
+      label: "Dự án / Projects",
+      slugField: "name",
+      path: "content/projects/*",
+      columns: ["date", "featured", "hidden"],
+      previewUrl: "/vi/projects",
+      schema: {
+        name: fields.slug({
+          name: {
+            label: "Tên dự án / Name",
+            validation: { isRequired: true, length: { max: 80 } },
+          },
+          slug: { label: "Mã (slug)", generate: slugify },
+        }),
+        summaryVi: fields.text({
+          label: "Mô tả ngắn (VI)",
+          description: "1–3 câu: đây là gì, bạn làm gì trong đó.",
+          multiline: true,
+          validation: { length: { max: 400 } },
+        }),
+        summaryEn: fields.text({
+          label: "Short description (EN)",
+          description: "Nếu để trống, site sẽ dùng bản tiếng Việt.",
+          multiline: true,
+          validation: { length: { max: 400 } },
+        }),
+        url: fields.url({
+          label: "Liên kết / Link (không bắt buộc)",
+          description: "Trang giới thiệu, bài viết, hoặc nơi xem dự án. Có link thì cả thẻ bấm được.",
+        }),
+        cover: fields.image({
+          label: "Ảnh minh hoạ / Image (không bắt buộc)",
+          description: "Ảnh ngang, tỉ lệ 1200×630 là đẹp nhất. Nên nén dưới ~500KB.",
+          directory: "public/images/projects",
+          publicPath: "/images/projects/",
+        }),
+        date: fields.date({
+          label: "Ngày / Date",
+          description: "Dùng để sắp xếp (mới nhất lên đầu) và hiện năm trên thẻ.",
+          defaultValue: { kind: "today" },
+          validation: { isRequired: true },
+        }),
+        featured: fields.checkbox({
+          label: "Hiện ở trang chủ",
+          description: "Tối đa 3 dự án mới nhất được đánh dấu sẽ hiện ở trang chủ.",
+          defaultValue: false,
+        }),
+        hidden: fields.checkbox({
+          label: "Ẩn khỏi site",
+          description: "Bật thì dự án không hiện ở đâu cả (giống bản nháp).",
+          defaultValue: false,
+        }),
+      },
     }),
   },
 
