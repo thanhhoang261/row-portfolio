@@ -19,6 +19,8 @@ npm run dev        # http://localhost:3000
   và các component riêng: **Callout** (info/mẹo/cảnh báo/nguy hiểm), **Details** (thu gọn), **Ảnh có chú thích**, **Video YouTube**.
 - **Nội dung trang:** mục *Thông tin cá nhân* (tên, email, link, vai trò, giới thiệu ngắn) và *Trang Giới thiệu* (VI/EN) sửa được ngay
   trên web; chưa nhập thì site dùng chữ mặc định trong `src/dictionaries/` và `src/data/site.ts`.
+- **Sở thích:** ba mục *Game mình chơi*, *Thể thao*, *Tác phẩm yêu thích* (`/games`, `/sports`, `/favorites`). Mỗi mục có
+  trang danh sách và trang chi tiết; phần "Suy nghĩ của mình" viết bằng trình soạn thảo đầy đủ, có ô tiếng Anh tuỳ chọn.
 - Bài nào dữ liệu lỗi (ví dụ thiếu tiêu đề) sẽ bị **bỏ qua khi build** và ghi cảnh báo, không làm hỏng cả site.
 
 ## Cấu trúc

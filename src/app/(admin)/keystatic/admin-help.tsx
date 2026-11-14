@@ -144,6 +144,11 @@ export function AdminHelp() {
                 <b>Hiện ở trang chủ</b> để đưa lên trang chủ.
               </li>
               <li>
+                Mục <b>Sở thích</b> (Game, Thể thao, Tác phẩm yêu thích): thêm từng mục rồi viết
+                suy nghĩ của bạn ở khung lớn. Ô <b>Suy nghĩ bản tiếng Anh</b> là tuỳ chọn; để trống
+                thì trang tiếng Anh dùng phần bạn viết.
+              </li>
+              <li>
                 Mục <b>Nội dung trang</b> sửa tên, email, link và trang Giới thiệu của site.
               </li>
             </ul>

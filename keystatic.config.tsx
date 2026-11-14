@@ -123,6 +123,26 @@ const components = {
   }),
 };
 
+const editorOptions = {
+  bold: true,
+  italic: true,
+  strikethrough: true,
+  code: true,
+  heading: [2, 3, 4] as (2 | 3 | 4)[],
+  blockquote: true,
+  orderedList: true,
+  unorderedList: true,
+  table: true,
+  link: true,
+  divider: true,
+  codeBlock: true,
+  image: {
+    directory: IMAGE_DIR,
+    publicPath: IMAGE_PATH,
+    transformFilename: sanitizeFilename,
+  },
+};
+
 // ---- Trường dùng chung cho bài viết ---------------------------------------------------
 const postFields = {
   title: fields.slug({
@@ -168,28 +188,69 @@ const postFields = {
   }),
   content: fields.mdx({
     label: "Nội dung / Content",
-    options: {
-      bold: true,
-      italic: true,
-      strikethrough: true,
-      code: true,
-      heading: [2, 3, 4],
-      blockquote: true,
-      orderedList: true,
-      unorderedList: true,
-      table: true,
-      link: true,
-      divider: true,
-      codeBlock: true,
-      image: {
-        directory: IMAGE_DIR,
-        publicPath: IMAGE_PATH,
-        transformFilename: sanitizeFilename,
-      },
-    },
+    options: editorOptions,
     components,
   }),
 };
+
+// ---- Các mục "sở thích": game, thể thao, tác phẩm yêu thích -------------------------
+const nameField = (label: string) =>
+  fields.slug({
+    name: { label, validation: { isRequired: true, length: { max: 100 } } },
+    slug: { label: "Mã (slug)", generate: slugify },
+  });
+const summaryVi = () =>
+  fields.text({
+    label: "Giới thiệu ngắn (VI)",
+    description: "1–2 câu, hiện ở danh sách.",
+    multiline: true,
+    validation: { length: { max: 300 } },
+  });
+const summaryEn = () =>
+  fields.text({
+    label: "Short intro (EN, không bắt buộc)",
+    description: "Để trống thì trang tiếng Anh dùng bản tiếng Việt.",
+    multiline: true,
+    validation: { length: { max: 300 } },
+  });
+const thoughtsEn = () =>
+  fields.text({
+    label: "Suy nghĩ bản tiếng Anh (EN, không bắt buộc)",
+    description:
+      "Văn bản thường, cách đoạn bằng một dòng trống. Để trống thì trang tiếng Anh dùng phần viết ở khung chính.",
+    multiline: true,
+  });
+const rating = () =>
+  fields.integer({
+    label: "Điểm / Rating (1–5, không bắt buộc)",
+    validation: { min: 1, max: 5 },
+  });
+const addedDate = () =>
+  fields.date({
+    label: "Ngày thêm / Date",
+    description: "Dùng để sắp xếp, mới nhất lên đầu.",
+    defaultValue: { kind: "today" },
+    validation: { isRequired: true },
+  });
+const hiddenField = () =>
+  fields.checkbox({
+    label: "Ẩn khỏi site",
+    description: "Bật thì mục này không hiện ở đâu cả.",
+    defaultValue: false,
+  });
+const coverFor = (dir: string) =>
+  fields.image({
+    label: "Ảnh / Image (không bắt buộc)",
+    description: "Ảnh ngang, tỉ lệ 1200×630 là đẹp nhất. Nên nén dưới ~500KB.",
+    directory: `public/images/${dir}`,
+    publicPath: `/images/${dir}/`,
+  });
+const thoughts = () =>
+  fields.mdx({
+    label: "Suy nghĩ của mình",
+    options: editorOptions,
+    components,
+  });
 
 export default config({
   // GitHub mode (commit qua GitHub App) khi NEXT_PUBLIC_KEYSTATIC_STORAGE=github,
@@ -227,6 +288,7 @@ export default config({
     navigation: {
       "Bài viết": ["postsVi", "postsEn"],
       "Dự án": ["projects"],
+      "Sở thích": ["games", "sports", "favorites"],
       "Nội dung trang": ["profile", "aboutVi", "aboutEn"],
     },
   },
@@ -251,6 +313,116 @@ export default config({
       columns: ["date", "draft"],
       previewUrl: "/en/blog/{slug}",
       schema: postFields,
+    }),
+
+    games: collection({
+      label: "Game mình chơi",
+      slugField: "name",
+      path: "content/games/*",
+      format: { contentField: "thoughts" },
+      entryLayout: "content",
+      columns: ["date", "status", "hidden"],
+      previewUrl: "/vi/games/{slug}",
+      schema: {
+        name: nameField("Tên game / Name"),
+        platform: fields.text({
+          label: "Nền tảng / Platform",
+          description: "Ví dụ: PC, PS5, Switch, điện thoại.",
+        }),
+        status: fields.select({
+          label: "Trạng thái",
+          defaultValue: "playing",
+          options: [
+            { label: "Đang chơi", value: "playing" },
+            { label: "Đã chơi xong", value: "finished" },
+            { label: "Tạm dừng", value: "paused" },
+          ],
+        }),
+        rating: rating(),
+        cover: coverFor("games"),
+        summaryVi: summaryVi(),
+        summaryEn: summaryEn(),
+        date: addedDate(),
+        hidden: hiddenField(),
+        thoughtsEn: thoughtsEn(),
+        thoughts: thoughts(),
+      },
+    }),
+
+    sports: collection({
+      label: "Thể thao",
+      slugField: "name",
+      path: "content/sports/*",
+      format: { contentField: "thoughts" },
+      entryLayout: "content",
+      columns: ["date", "level", "hidden"],
+      previewUrl: "/vi/sports/{slug}",
+      schema: {
+        name: nameField("Tên môn / Name"),
+        level: fields.select({
+          label: "Mức độ chơi",
+          defaultValue: "regular",
+          options: [
+            { label: "Chơi cho vui", value: "casual" },
+            { label: "Chơi đều đặn", value: "regular" },
+            { label: "Thi đấu", value: "competitive" },
+            { label: "Đã từng chơi", value: "former" },
+          ],
+        }),
+        since: fields.text({
+          label: "Chơi từ khi nào",
+          description: "Ví dụ: 2015, hoặc hồi cấp 3.",
+        }),
+        frequency: fields.text({
+          label: "Tần suất",
+          description: "Ví dụ: 2 buổi mỗi tuần.",
+        }),
+        cover: coverFor("sports"),
+        summaryVi: summaryVi(),
+        summaryEn: summaryEn(),
+        date: addedDate(),
+        hidden: hiddenField(),
+        thoughtsEn: thoughtsEn(),
+        thoughts: thoughts(),
+      },
+    }),
+
+    favorites: collection({
+      label: "Tác phẩm yêu thích",
+      slugField: "name",
+      path: "content/favorites/*",
+      format: { contentField: "thoughts" },
+      entryLayout: "content",
+      columns: ["date", "kind", "hidden"],
+      previewUrl: "/vi/favorites/{slug}",
+      schema: {
+        name: nameField("Tên tác phẩm / Title"),
+        kind: fields.select({
+          label: "Loại",
+          defaultValue: "film",
+          options: [
+            { label: "Phim", value: "film" },
+            { label: "Series", value: "series" },
+            { label: "Sách", value: "book" },
+            { label: "Nhạc", value: "music" },
+            { label: "Anime / Manga", value: "anime" },
+            { label: "Podcast", value: "podcast" },
+            { label: "Khác", value: "other" },
+          ],
+        }),
+        creator: fields.text({
+          label: "Tác giả / Đạo diễn / Nghệ sĩ",
+        }),
+        year: fields.text({ label: "Năm phát hành" }),
+        rating: rating(),
+        cover: coverFor("favorites"),
+        summaryVi: summaryVi(),
+        summaryEn: summaryEn(),
+        date: addedDate(),
+        hidden: hiddenField(),
+        thoughtsEn: thoughtsEn(),
+        thoughts: thoughts(),
+      },
     }),
 
     projects: collection({
