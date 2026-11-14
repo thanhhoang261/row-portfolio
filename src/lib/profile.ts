@@ -23,7 +23,6 @@ const toHandle = (name: string) =>
     .replace(/[̀-ͯ]/g, "")
     .replace(/đ/gi, "d")
     .toLowerCase()
-    .split(/\s+/)[0]
     .replace(/[^a-z0-9]/g, "") || "row";
 
 /** Thay {name} trong chuỗi của dictionary bằng tên hiển thị. */
